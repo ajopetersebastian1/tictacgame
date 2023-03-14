@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:get/get.dart';
 
 enum Player { O, X }
@@ -10,7 +8,6 @@ class GameController extends GetxController {
   List<String> gameMatrix = ['', '', '', '', '', '', '', '', ''].obs;
   RxString winner = ''.obs;
   bool _gameOver = false;
-      bool isComputerMoved=false;
 
   void handleTileClick(int index) {
     if (!_gameOver && gameMatrix[index] == '') {
@@ -21,7 +18,7 @@ class GameController extends GetxController {
         gameMatrix[index] = 'X';
         currPlayer = Player.O;
       }
-
+      computersMove();
       if (checkWinner('O')) {
         winner.value = "player O Win";
         _gameOver = true;
@@ -35,7 +32,6 @@ class GameController extends GetxController {
       if (!_gameOver) {
         print("Computer move");
       }
-      computersMove();
       notifyChildrens();
     }
   }
@@ -99,7 +95,6 @@ class GameController extends GetxController {
     _gameOver = false;
     winner.value = '';
     currPlayer = Player.X;
-    isComputerMoved=false;
     notifyChildrens();
   }
 
@@ -109,152 +104,118 @@ class GameController extends GetxController {
     }
     winner.value = '';
     _gameOver = false;
-    currPlayer = Player.X;isComputerMoved=false;
+    currPlayer = Player.X;
     notifyChildrens();
   }
 
   void computersMove() {
-    // if (gameMatrix[0] == gameMatrix[1] && gameMatrix[0] == 'X') {
-    //   if (gameMatrix[2] == '') {
-    //     gameMatrix[2] = 'O';
-    //   }
-    // }
-
+    computerDiagMove();
     computerRowmove(0);
     computerRowmove(3);
     computerRowmove(6);
     computerColumMove(0);
     computerColumMove(1);
     computerColumMove(2);
-    computerDiagMove();
+  
 
-
-    
-if(!isComputerMoved){
-      for(var i=0;i<9;i++){
-      if(gameMatrix[i]==''){
-        gameMatrix[i]='O';
-        isComputerMoved=true;
-        currPlayer=Player.X;
-        break;
+    if (currPlayer==Player.O) {
+      for (var i = 0; i < 9; i++) {
+        if (gameMatrix[i] == '') {
+          gameMatrix[i] = 'O';
+          currPlayer = Player.X;
+          break;
+        }
       }
     }
-}
 
-    // for(var i=0;i<9;i++){
-    //   gameMatrix[i]==
-    // }
-
-
-    currPlayer=Player.X;
+    currPlayer = Player.X;
   }
 
   computerRowmove(int i) {
     if (gameMatrix[i] == gameMatrix[i + 1] && gameMatrix[i] == 'X') {
-      if (gameMatrix[i + 2] == ''&&gameMatrix[i + 2] != 'O') {
+      if (gameMatrix[i + 2] == '' && currPlayer==Player.O) {
         gameMatrix[i + 2] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
     if (gameMatrix[i] == gameMatrix[i + 2] && gameMatrix[i] == 'X') {
-      if (gameMatrix[i + 1] == ''&&gameMatrix[i + 1] != 'O') {
+      if (gameMatrix[i + 1] == '' && currPlayer==Player.O) {
         gameMatrix[i + 1] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
-     if (gameMatrix[i + 1] == gameMatrix[i + 2] && gameMatrix[i + 1] == 'X') {
-        if (gameMatrix[i] == ''&&gameMatrix[i] != 'O') {
-          gameMatrix[i] = 'O';
-          currPlayer = Player.X;
-           isComputerMoved=true;
-        }
-        
+    if (gameMatrix[i + 1] == gameMatrix[i + 2] && gameMatrix[i + 1] == 'X') {
+      if (gameMatrix[i] == '' && currPlayer==Player.O) {
+        gameMatrix[i] = 'O';
+        currPlayer = Player.X;
       }
+    }
   }
 
   computerColumMove(int i) {
     if (gameMatrix[i] == gameMatrix[i + 3] && gameMatrix[i] == 'X') {
-      if (gameMatrix[i + 6] == ''&&gameMatrix[i + 6] != 'O') {
+      if (gameMatrix[i + 6] == '' && currPlayer==Player.O) {
         gameMatrix[i + 6] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
-      if (gameMatrix[i] == gameMatrix[i + 6] && gameMatrix[i] == 'X') {
-      if (gameMatrix[i + 3] == ''&&gameMatrix[i + 3] != 'O') {
+    if (gameMatrix[i] == gameMatrix[i + 6] && gameMatrix[i] == 'X') {
+      if (gameMatrix[i + 3] == '' && currPlayer==Player.O) {
         gameMatrix[i + 3] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
-      if (gameMatrix[i+3] == gameMatrix[i + 6] && gameMatrix[i+3] == 'X') {
-      if (gameMatrix[i] == ''&&gameMatrix[i] != 'O') {
+    if (gameMatrix[i + 3] == gameMatrix[i + 6] && gameMatrix[i + 3] == 'X') {
+      if (gameMatrix[i] == '' && currPlayer==Player.O) {
         gameMatrix[i] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
   }
-computerDiagMove(){
 
-        if (gameMatrix[0] == gameMatrix[4] && gameMatrix[0] == 'X') {
-      if (gameMatrix[8] == '') {
+  computerDiagMove() {
+    if (gameMatrix[0] == gameMatrix[4] && gameMatrix[0] == 'X') {
+      if (gameMatrix[8] == ''&& currPlayer==Player.O) {
         gameMatrix[8] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
-    
-        if (gameMatrix[4] == gameMatrix[8] && gameMatrix[4] == 'X') {
-      if (gameMatrix[0] == '') {
+    if (gameMatrix[4] == gameMatrix[8] && gameMatrix[4] == 'X') {
+      if (gameMatrix[0] == ''&& currPlayer==Player.O) {
         gameMatrix[0] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
-            if (gameMatrix[0] == gameMatrix[8] && gameMatrix[0] == 'X') {
-      if (gameMatrix[4] == '') {
+    if (gameMatrix[0] == gameMatrix[8] && gameMatrix[0] == 'X') {
+      if (gameMatrix[4] == ''&& currPlayer==Player.O) {
         gameMatrix[4] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
-
-
-            if (gameMatrix[2] == gameMatrix[4] && gameMatrix[2] == 'X') {
-      if (gameMatrix[6] == '') {
+    if (gameMatrix[2] == gameMatrix[4] && gameMatrix[2] == 'X') {
+      if (gameMatrix[6] == ''&& currPlayer==Player.O) {
         gameMatrix[6] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
-    
-        if (gameMatrix[2] == gameMatrix[6] && gameMatrix[2] == 'X') {
-      if (gameMatrix[4] == '') {
+    if (gameMatrix[2] == gameMatrix[6] && gameMatrix[2] == 'X') {
+      if (gameMatrix[4] == ''&& currPlayer==Player.O) {
         gameMatrix[4] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
 
-            if (gameMatrix[4] == gameMatrix[6] && gameMatrix[4] == 'X') {
-      if (gameMatrix[2] == '') {
+    if (gameMatrix[4] == gameMatrix[6] && gameMatrix[4] == 'X') {
+      if (gameMatrix[2] == ''&& currPlayer==Player.O) {
         gameMatrix[2] = 'O';
         currPlayer = Player.X;
-         isComputerMoved=true;
       }
     }
-
-}
-
-
-  
+  }
 }

@@ -5,9 +5,8 @@ import 'package:tic_tac/screen/home_screen/controller/game_controller.dart';
 class Tile extends StatelessWidget {
 
   final int index;
-  final Function FunClick;
   final GameController controller;
-  Tile({super.key, required this.index, required this.FunClick, required this.controller});
+  const Tile({super.key, required this.index, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class Tile extends StatelessWidget {
               color: Colors.blue),
               child:Center(
                 child: Text(controller.gameMatrix[index],
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 80,
                   color: Colors.red,
                 ),),

@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               shrinkWrap: true,
               itemCount: 9,
               itemBuilder: (context, index) {
-                return Tile(index: index, FunClick: () {},controller: _controller,);
+                return Tile(index: index, controller: _controller,);
               },
               gridDelegate:
                   const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
@@ -35,16 +35,16 @@ class HomeScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () { _controller.clearMatrix();},
-                child: Text('start Again'),
-              ), SizedBox(width: 30),
+                child: const Text('start Again'),
+              ), const SizedBox(width: 30),
                             ElevatedButton(
                 onPressed: () { _controller.restart();},
-                child: Text('Restart'),
+                child: const Text('Restart'),
               ),
             ],
           ),
                   Obx(() {
-              return Text("${_controller.winner.value}", style: TextStyle(fontSize: 24,color: Colors.red,fontWeight: FontWeight.bold),);
+              return Text(_controller.winner.value, style: const TextStyle(fontSize: 24,color: Colors.red,fontWeight: FontWeight.bold),);
             }
           ),
         ],
